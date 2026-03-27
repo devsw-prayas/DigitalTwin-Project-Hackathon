@@ -1,0 +1,1044 @@
+# Preventive Health Digital Twin — Persona Configs
+# Each persona maps to a real-life archetype.
+# All signal values are daily aggregates.
+#
+# Special keys:
+#   recovery_days          — Recovering/new_parent: days until risk plateaus
+#   cycle_period_days      — Hormonal: menstrual cycle length
+#   aqi_spike_count        — HighAQI: pollution events per year
+#   aqi_spike_mag          — HighAQI: peak AQI delta during event
+#   overtraining_period_days — Athlete: days between overtraining events
+#   overtraining_magnitude   — Athlete: cardio risk spike magnitude
+#   overtraining_width_days  — Athlete: recovery window in days
+#   shift_period_days        — ShiftWorker: rotation cycle length
+#   shift_mental_amplitude   — ShiftWorker: mental risk swing per cycle
+#   flare_count              — ChronicIllness: flare events per year
+#   flare_magnitude          — ChronicIllness: risk spike magnitude
+#   flare_width_days         — ChronicIllness: flare duration
+#   semester_period_days     — CollegeStudent: stress cycle length
+#   exam_mental_amplitude    — CollegeStudent: mental spike at exam week
+#   travel_count             — Traveler: trips per year
+#   travel_width_days        — Traveler: disruption window per trip
+#   travel_mental_magnitude  — Traveler: mental risk spike per trip
+#   travel_cardio_magnitude  — Traveler: cardio risk spike per trip
+#
+# DIVERGENCE NOTE (new personas at bottom):
+#   Personas marked [DIVERGENT] are specifically designed so cardio and mental
+#   ground truth curves move in opposite directions or have large magnitude
+#   asymmetry. These are critical for JSD training signal.
+
+personas:
+
+  healthy:
+    description: "Clean eater, regular sleep, gym 4x/week, low-stress job, clean air suburb"
+    seed: 101
+
+    cardio:
+      base: 0.10
+      drift_per_day: 0.00003
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.14
+      drift_per_day: 0.00005
+      event_day: 200
+      event_magnitude: 0.06
+      event_width_days: 15
+      seasonal_amplitude: 0.03
+
+    signals:
+      hrv_rmssd_ms: 70.0
+      resting_hr_bpm: 57.0
+      spo2_pct: 98.8
+      sleep_efficiency_pct: 91.0
+      rem_min: 105.0
+      deep_min: 90.0
+      steps: 10500.0
+      active_min: 52.0
+      screen_off_min: 75.0
+      aqi_pm25: 12.0
+      ambient_temp_c: 22.0
+
+    noise:
+      hrv_rmssd_ms: 4.0
+      resting_hr_bpm: 2.0
+      spo2_pct: 0.3
+      sleep_efficiency_pct: 0.03
+      rem_min: 8.0
+      deep_min: 7.0
+      steps: 800.0
+      active_min: 6.0
+      screen_off_min: 12.0
+      aqi_pm25: 3.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  swe:
+    description: "Software engineer: sedentary, late nights, high screen time, irregular meals, office AQI"
+    seed: 202
+
+    cardio:
+      base: 0.30
+      drift_per_day: 0.00015
+      event_day: 210
+      event_magnitude: 0.10
+      event_width_days: 30
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.48
+      drift_per_day: 0.00025
+      event_day: 180
+      event_magnitude: 0.14
+      event_width_days: 25
+      seasonal_amplitude: 0.04
+
+    signals:
+      hrv_rmssd_ms: 38.0
+      resting_hr_bpm: 76.0
+      spo2_pct: 97.8
+      sleep_efficiency_pct: 72.0
+      rem_min: 68.0
+      deep_min: 48.0
+      steps: 3000.0
+      active_min: 15.0
+      screen_off_min: 390.0
+      aqi_pm25: 42.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 6.0
+      resting_hr_bpm: 3.5
+      spo2_pct: 0.4
+      sleep_efficiency_pct: 0.06
+      rem_min: 14.0
+      deep_min: 10.0
+      steps: 500.0
+      active_min: 4.0
+      screen_off_min: 45.0
+      aqi_pm25: 8.0
+      ambient_temp_c: 1.5
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  recovering:
+    description: "Post-viral (COVID/flu), previously healthy, rebuilding stamina over ~120 days"
+    seed: 303
+    recovery_days: 120
+
+    cardio:
+      base: 0.58
+      drift_per_day: -0.00380
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.45
+      drift_per_day: -0.00280
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 15
+      seasonal_amplitude: 0.03
+
+    signals:
+      hrv_rmssd_ms: 28.0
+      resting_hr_bpm: 88.0
+      spo2_pct: 96.5
+      sleep_efficiency_pct: 65.0
+      rem_min: 52.0
+      deep_min: 40.0
+      steps: 800.0
+      active_min: 5.0
+      screen_off_min: 200.0
+      aqi_pm25: 14.0
+      ambient_temp_c: 22.0
+
+    noise:
+      hrv_rmssd_ms: 5.0
+      resting_hr_bpm: 3.0
+      spo2_pct: 0.5
+      sleep_efficiency_pct: 0.05
+      rem_min: 10.0
+      deep_min: 8.0
+      steps: 200.0
+      active_min: 3.0
+      screen_off_min: 25.0
+      aqi_pm25: 3.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  sedentary:
+    description: "Desk job, car commute, fast food diet, no exercise, mild ambient stress"
+    seed: 404
+
+    cardio:
+      base: 0.28
+      drift_per_day: 0.00020
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.22
+      drift_per_day: 0.00008
+      event_day: 270
+      event_magnitude: 0.07
+      event_width_days: 20
+      seasonal_amplitude: 0.03
+
+    signals:
+      hrv_rmssd_ms: 50.0
+      resting_hr_bpm: 72.0
+      spo2_pct: 97.9
+      sleep_efficiency_pct: 78.0
+      rem_min: 74.0
+      deep_min: 58.0
+      steps: 2200.0
+      active_min: 8.0
+      screen_off_min: 210.0
+      aqi_pm25: 28.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 5.0
+      resting_hr_bpm: 3.0
+      spo2_pct: 0.3
+      sleep_efficiency_pct: 0.05
+      rem_min: 10.0
+      deep_min: 8.0
+      steps: 400.0
+      active_min: 3.0
+      screen_off_min: 30.0
+      aqi_pm25: 5.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  high_aqi:
+    description: "Outdoor worker / urban commuter, otherwise healthy habits, severe pollution events"
+    seed: 505
+    aqi_spike_count: 3
+    aqi_spike_magnitude: 120.0
+    aqi_spike_width_days: 21
+
+    cardio:
+      base: 0.15
+      drift_per_day: 0.00005
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.16
+      drift_per_day: 0.00004
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 15
+      seasonal_amplitude: 0.03
+
+    signals:
+      hrv_rmssd_ms: 62.0
+      resting_hr_bpm: 60.0
+      spo2_pct: 98.5
+      sleep_efficiency_pct: 87.0
+      rem_min: 98.0
+      deep_min: 84.0
+      steps: 10000.0
+      active_min: 60.0
+      screen_off_min: 90.0
+      aqi_pm25: 22.0
+      ambient_temp_c: 23.0
+
+    noise:
+      hrv_rmssd_ms: 4.0
+      resting_hr_bpm: 2.5
+      spo2_pct: 0.35
+      sleep_efficiency_pct: 0.03
+      rem_min: 9.0
+      deep_min: 7.0
+      steps: 900.0
+      active_min: 8.0
+      screen_off_min: 15.0
+      aqi_pm25: 5.0
+      ambient_temp_c: 3.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  hormonal:
+    description: "Active woman, good habits, strong 28-day cyclical pattern in sleep and mental state"
+    seed: 606
+    cycle_period_days: 28
+
+    cardio:
+      base: 0.12
+      drift_per_day: 0.00003
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.015
+
+    mental:
+      base: 0.20
+      drift_per_day: 0.00004
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 15
+      seasonal_amplitude: 0.025
+
+    signals:
+      hrv_rmssd_ms: 64.0
+      resting_hr_bpm: 59.0
+      spo2_pct: 98.6
+      sleep_efficiency_pct: 88.0
+      rem_min: 100.0
+      deep_min: 86.0
+      steps: 9000.0
+      active_min: 48.0
+      screen_off_min: 95.0
+      aqi_pm25: 13.0
+      ambient_temp_c: 22.0
+
+    noise:
+      hrv_rmssd_ms: 4.5
+      resting_hr_bpm: 2.0
+      spo2_pct: 0.3
+      sleep_efficiency_pct: 0.03
+      rem_min: 8.0
+      deep_min: 7.0
+      steps: 850.0
+      active_min: 7.0
+      screen_off_min: 14.0
+      aqi_pm25: 3.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  athlete:
+    description: "Endurance athlete — very high HRV baseline, high activity, periodic overtraining spikes every ~90 days"
+    seed: 707
+    overtraining_period_days: 90
+    overtraining_magnitude: 0.18
+    overtraining_width_days: 14
+
+    cardio:
+      base: 0.08
+      drift_per_day: 0.00001
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 14
+      seasonal_amplitude: 0.015
+
+    mental:
+      base: 0.12
+      drift_per_day: 0.00002
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 14
+      seasonal_amplitude: 0.02
+
+    signals:
+      hrv_rmssd_ms: 92.0
+      resting_hr_bpm: 46.0
+      spo2_pct: 99.0
+      sleep_efficiency_pct: 92.0
+      rem_min: 112.0
+      deep_min: 98.0
+      steps: 20000.0
+      active_min: 120.0
+      screen_off_min: 70.0
+      aqi_pm25: 18.0
+      ambient_temp_c: 20.0
+
+    noise:
+      hrv_rmssd_ms: 6.0
+      resting_hr_bpm: 2.5
+      spo2_pct: 0.25
+      sleep_efficiency_pct: 0.025
+      rem_min: 9.0
+      deep_min: 8.0
+      steps: 1800.0
+      active_min: 14.0
+      screen_off_min: 12.0
+      aqi_pm25: 4.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  shift_worker:
+    description: "Night/rotating shift worker — 7-day shift cycle, chronically disrupted sleep, slow cardio drift"
+    seed: 808
+    shift_period_days: 7
+    shift_mental_amplitude: 0.22
+
+    cardio:
+      base: 0.30
+      drift_per_day: 0.00018
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.42
+      drift_per_day: 0.00015
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.03
+
+    signals:
+      hrv_rmssd_ms: 40.0
+      resting_hr_bpm: 74.0
+      spo2_pct: 97.6
+      sleep_efficiency_pct: 67.0
+      rem_min: 58.0
+      deep_min: 44.0
+      steps: 6500.0
+      active_min: 28.0
+      screen_off_min: 185.0
+      aqi_pm25: 45.0
+      ambient_temp_c: 20.0
+
+    noise:
+      hrv_rmssd_ms: 6.5
+      resting_hr_bpm: 3.5
+      spo2_pct: 0.4
+      sleep_efficiency_pct: 0.07
+      rem_min: 12.0
+      deep_min: 9.0
+      steps: 700.0
+      active_min: 5.0
+      screen_off_min: 28.0
+      aqi_pm25: 9.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  chronic_illness:
+    description: "Chronic illness (diabetes/hypertension) — high baseline, periodic flare events, SpO2 chronically low"
+    seed: 909
+    flare_count: 4
+    flare_magnitude: 0.16
+    flare_width_days: 21
+
+    cardio:
+      base: 0.55
+      drift_per_day: 0.00012
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 21
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.42
+      drift_per_day: 0.00010
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 18
+      seasonal_amplitude: 0.03
+
+    signals:
+      hrv_rmssd_ms: 32.0
+      resting_hr_bpm: 82.0
+      spo2_pct: 96.2
+      sleep_efficiency_pct: 74.0
+      rem_min: 62.0
+      deep_min: 48.0
+      steps: 3000.0
+      active_min: 12.0
+      screen_off_min: 200.0
+      aqi_pm25: 26.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 5.5
+      resting_hr_bpm: 4.0
+      spo2_pct: 0.5
+      sleep_efficiency_pct: 0.06
+      rem_min: 11.0
+      deep_min: 9.0
+      steps: 450.0
+      active_min: 3.5
+      screen_off_min: 32.0
+      aqi_pm25: 5.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  elderly:
+    description: "Elderly (65+) — low HRV baseline, slow upward drift, longer recovery, winter vulnerability"
+    seed: 1010
+
+    cardio:
+      base: 0.48
+      drift_per_day: 0.00010
+      event_day: 300
+      event_magnitude: 0.10
+      event_width_days: 30
+      seasonal_amplitude: 0.05
+
+    mental:
+      base: 0.35
+      drift_per_day: 0.00008
+      event_day: 300
+      event_magnitude: 0.07
+      event_width_days: 25
+      seasonal_amplitude: 0.04
+
+    signals:
+      hrv_rmssd_ms: 26.0
+      resting_hr_bpm: 68.0
+      spo2_pct: 97.2
+      sleep_efficiency_pct: 76.0
+      rem_min: 60.0
+      deep_min: 42.0
+      steps: 3500.0
+      active_min: 18.0
+      screen_off_min: 120.0
+      aqi_pm25: 20.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 4.0
+      resting_hr_bpm: 2.5
+      spo2_pct: 0.4
+      sleep_efficiency_pct: 0.04
+      rem_min: 9.0
+      deep_min: 7.0
+      steps: 500.0
+      active_min: 4.0
+      screen_off_min: 20.0
+      aqi_pm25: 4.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  college_student:
+    description: "College student — semester stress cycles (~120d), late nights, high screen time, summer recovery"
+    seed: 1111
+    semester_period_days: 120
+    exam_mental_amplitude: 0.20
+
+    cardio:
+      base: 0.18
+      drift_per_day: 0.00005
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 14
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.30
+      drift_per_day: 0.00008
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 14
+      seasonal_amplitude: 0.04
+
+    signals:
+      hrv_rmssd_ms: 52.0
+      resting_hr_bpm: 66.0
+      spo2_pct: 98.2
+      sleep_efficiency_pct: 70.0
+      rem_min: 72.0
+      deep_min: 55.0
+      steps: 5500.0
+      active_min: 25.0
+      screen_off_min: 360.0
+      aqi_pm25: 25.0
+      ambient_temp_c: 20.0
+
+    noise:
+      hrv_rmssd_ms: 6.0
+      resting_hr_bpm: 3.0
+      spo2_pct: 0.35
+      sleep_efficiency_pct: 0.06
+      rem_min: 13.0
+      deep_min: 10.0
+      steps: 650.0
+      active_min: 5.0
+      screen_off_min: 50.0
+      aqi_pm25: 5.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  new_parent:
+    description: "New parent — severely disrupted sleep, both agents high early, mental leads recovery over ~365 days"
+    seed: 1212
+    recovery_days: 365
+
+    cardio:
+      base: 0.45
+      drift_per_day: -0.00018
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.62
+      drift_per_day: -0.00025
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.025
+
+    signals:
+      hrv_rmssd_ms: 32.0
+      resting_hr_bpm: 80.0
+      spo2_pct: 97.4
+      sleep_efficiency_pct: 58.0
+      rem_min: 44.0
+      deep_min: 32.0
+      steps: 6000.0
+      active_min: 22.0
+      screen_off_min: 160.0
+      aqi_pm25: 14.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 5.5
+      resting_hr_bpm: 3.5
+      spo2_pct: 0.4
+      sleep_efficiency_pct: 0.07
+      rem_min: 10.0
+      deep_min: 8.0
+      steps: 600.0
+      active_min: 4.0
+      screen_off_min: 25.0
+      aqi_pm25: 3.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  remote_worker:
+    description: "Remote worker — isolated, very low steps, elevated mental risk from inactivity + isolation, winter worse"
+    seed: 1313
+
+    cardio:
+      base: 0.24
+      drift_per_day: 0.00016
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 20
+      seasonal_amplitude: 0.03
+
+    mental:
+      base: 0.38
+      drift_per_day: 0.00020
+      event_day: 60
+      event_magnitude: 0.09
+      event_width_days: 20
+      seasonal_amplitude: 0.06
+
+    signals:
+      hrv_rmssd_ms: 48.0
+      resting_hr_bpm: 70.0
+      spo2_pct: 98.0
+      sleep_efficiency_pct: 79.0
+      rem_min: 80.0
+      deep_min: 64.0
+      steps: 1800.0
+      active_min: 8.0
+      screen_off_min: 420.0
+      aqi_pm25: 14.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 5.0
+      resting_hr_bpm: 2.5
+      spo2_pct: 0.3
+      sleep_efficiency_pct: 0.04
+      rem_min: 9.0
+      deep_min: 7.0
+      steps: 300.0
+      active_min: 2.0
+      screen_off_min: 40.0
+      aqi_pm25: 3.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  traveler:
+    description: "Frequent traveler — healthy baseline, ~4 travel disruption events/year, jet lag windows, variable AQI"
+    seed: 1414
+    travel_count: 4
+    travel_width_days: 10
+    travel_mental_magnitude: 0.14
+    travel_cardio_magnitude: 0.08
+
+    cardio:
+      base: 0.14
+      drift_per_day: 0.00004
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 10
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.18
+      drift_per_day: 0.00005
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 10
+      seasonal_amplitude: 0.025
+
+    signals:
+      hrv_rmssd_ms: 60.0
+      resting_hr_bpm: 62.0
+      spo2_pct: 98.4
+      sleep_efficiency_pct: 84.0
+      rem_min: 92.0
+      deep_min: 78.0
+      steps: 9000.0
+      active_min: 45.0
+      screen_off_min: 120.0
+      aqi_pm25: 20.0
+      ambient_temp_c: 22.0
+
+    noise:
+      hrv_rmssd_ms: 7.0
+      resting_hr_bpm: 3.5
+      spo2_pct: 0.4
+      sleep_efficiency_pct: 0.06
+      rem_min: 14.0
+      deep_min: 11.0
+      steps: 2200.0
+      active_min: 12.0
+      screen_off_min: 25.0
+      aqi_pm25: 12.0
+      ambient_temp_c: 4.0
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # DIVERGENCE-MAXIMIZING PERSONAS
+  # Cardio and mental move in opposite directions or with large magnitude
+  # asymmetry. Critical for JSD training signal.
+  # ═══════════════════════════════════════════════════════════════════════════
+
+  cardiac_stoic:
+    # [DIVERGENT] High and worsening cardio risk. Mental rock-solid.
+    # Archetype: type-A executive — physical health declining but psychologically
+    # resilient, emotionally regulated, low perceived stress despite poor metabolic markers.
+    # Cardio-primary signals dominate: resting HR elevated, SpO2 drifting down,
+    # active minutes collapsing. Mental signals flat.
+    description: "Type-A executive — worsening cardio (hypertension, inactivity) but psychologically resilient and low-stress"
+    seed: 2001
+
+    cardio:
+      base: 0.52
+      drift_per_day: 0.00025       # strong upward cardio drift
+      event_day: 180
+      event_magnitude: 0.14        # large cardio event (hypertensive episode)
+      event_width_days: 20
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.11                   # low mental baseline
+      drift_per_day: 0.00001       # barely moves
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 15
+      seasonal_amplitude: 0.01     # almost no seasonal mental variation
+
+    signals:
+      hrv_rmssd_ms: 28.0           # low — poor autonomic tone
+      resting_hr_bpm: 84.0         # elevated
+      spo2_pct: 97.0               # borderline
+      sleep_efficiency_pct: 84.0   # good sleep — mentally well
+      rem_min: 96.0                # good REM — low mental stress
+      deep_min: 82.0
+      steps: 2800.0                # low activity
+      active_min: 10.0
+      screen_off_min: 60.0         # disciplined screen use
+      aqi_pm25: 30.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 5.0
+      resting_hr_bpm: 3.5
+      spo2_pct: 0.4
+      sleep_efficiency_pct: 0.03
+      rem_min: 8.0
+      deep_min: 7.0
+      steps: 450.0
+      active_min: 3.0
+      screen_off_min: 10.0
+      aqi_pm25: 5.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  anxious_athlete:
+    # [DIVERGENT] Excellent cardio health. High and worsening mental risk.
+    # Archetype: competitive athlete with clinical anxiety and perfectionism.
+    # Cardio signals are elite (high HRV, low resting HR, high SpO2, high steps).
+    # Mental signals are poor (fragmented REM, high screen time, stress spiking).
+    # Large event asymmetry: mental has a major anxiety crisis, cardio unaffected.
+    description: "Competitive athlete with clinical anxiety — elite physical markers, severe mental health burden"
+    seed: 2002
+
+    cardio:
+      base: 0.07                   # excellent cardio baseline
+      drift_per_day: 0.00001       # barely worsens
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 14
+      seasonal_amplitude: 0.01
+
+    mental:
+      base: 0.55                   # high mental baseline
+      drift_per_day: 0.00022       # worsening anxiety trajectory
+      event_day: 150               # major anxiety crisis / competition breakdown
+      event_magnitude: 0.18
+      event_width_days: 20
+      seasonal_amplitude: 0.05
+
+    signals:
+      hrv_rmssd_ms: 88.0           # elite HRV
+      resting_hr_bpm: 48.0         # athletic bradycardia
+      spo2_pct: 99.1
+      sleep_efficiency_pct: 68.0   # poor — anxiety disrupts sleep
+      rem_min: 55.0                # low REM — anxiety suppresses
+      deep_min: 72.0               # deep sleep preserved (physical recovery)
+      steps: 18000.0               # high — trains obsessively
+      active_min: 110.0
+      screen_off_min: 280.0        # high — doom scrolling anxiety behaviour
+      aqi_pm25: 16.0
+      ambient_temp_c: 20.0
+
+    noise:
+      hrv_rmssd_ms: 7.0            # higher noise — overtraining variability
+      resting_hr_bpm: 2.5
+      spo2_pct: 0.2
+      sleep_efficiency_pct: 0.08   # high noise — erratic anxiety-driven sleep
+      rem_min: 12.0
+      deep_min: 8.0
+      steps: 2500.0
+      active_min: 16.0
+      screen_off_min: 60.0
+      aqi_pm25: 4.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  mindful_couch:
+    # [DIVERGENT] Cardio worsening steadily. Mental improving steadily.
+    # Archetype: sedentary person who started therapy + meditation. Physical
+    # health still declining (no exercise change) but mental health is on a
+    # genuine upward trajectory. Opposite drift directions.
+    description: "Sedentary but in therapy — cardio drifting up from inactivity, mental improving from consistent mindfulness practice"
+    seed: 2003
+
+    cardio:
+      base: 0.35
+      drift_per_day: 0.00022       # cardio worsening — no exercise change
+      event_day: 240
+      event_magnitude: 0.08        # doctor warning event — brief cardio spike
+      event_width_days: 15
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.52                   # starts high
+      drift_per_day: -0.00018      # genuine mental improvement from therapy
+      event_day: 60                # therapy breakthrough event — mental drops sharply
+      event_magnitude: -0.10       # negative magnitude = improvement event
+      event_width_days: 30
+      seasonal_amplitude: 0.03
+
+    signals:
+      hrv_rmssd_ms: 44.0
+      resting_hr_bpm: 78.0
+      spo2_pct: 97.8
+      sleep_efficiency_pct: 82.0   # improving — mental improvement helps sleep
+      rem_min: 88.0                # good and improving
+      deep_min: 62.0
+      steps: 2500.0                # low — still sedentary
+      active_min: 9.0
+      screen_off_min: 150.0        # reducing — mindfulness reducing screen time
+      aqi_pm25: 22.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 5.0
+      resting_hr_bpm: 3.0
+      spo2_pct: 0.35
+      sleep_efficiency_pct: 0.04
+      rem_min: 10.0
+      deep_min: 8.0
+      steps: 400.0
+      active_min: 3.0
+      screen_off_min: 25.0
+      aqi_pm25: 4.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  burned_out_runner:
+    # [DIVERGENT] Cardio recovering, mental collapsing.
+    # Archetype: recreational runner who got injured, stopped training (cardio
+    # recovering from overtraining stress), but the loss of running as a coping
+    # mechanism is driving a mental health crisis.
+    description: "Recreational runner post-injury — cardio recovering as overtraining resolves, mental collapsing without running as coping mechanism"
+    seed: 2004
+    recovery_days: 180             # cardio recovery window
+
+    cardio:
+      base: 0.42                   # starts high from overtraining
+      drift_per_day: -0.00020      # recovering — injury forced rest
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 14
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.28                   # starts moderate
+      drift_per_day: 0.00028       # worsening — loss of coping mechanism
+      event_day: 90                # mental crisis peak — realizes running is gone
+      event_magnitude: 0.16
+      event_width_days: 25
+      seasonal_amplitude: 0.04
+
+    signals:
+      hrv_rmssd_ms: 52.0           # moderate — overtraining resolving
+      resting_hr_bpm: 68.0
+      spo2_pct: 98.2
+      sleep_efficiency_pct: 72.0   # poor — mental distress
+      rem_min: 62.0                # low — mental distress suppresses REM
+      deep_min: 58.0
+      steps: 4000.0                # low — injured, can't run
+      active_min: 18.0
+      screen_off_min: 290.0        # high — boredom + distress
+      aqi_pm25: 18.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 6.0
+      resting_hr_bpm: 3.0
+      spo2_pct: 0.35
+      sleep_efficiency_pct: 0.06
+      rem_min: 12.0
+      deep_min: 9.0
+      steps: 700.0
+      active_min: 5.0
+      screen_off_min: 45.0
+      aqi_pm25: 4.0
+      ambient_temp_c: 2.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  pollution_anxious:
+    # [DIVERGENT] AQI-driven cardio spikes with zero mental coupling.
+    # Archetype: asthmatic city dweller — lungs and heart respond sharply to
+    # pollution events (cardio spikes hard), but mental health is stable and
+    # uncoupled (high therapy adherence, strong social support). Tests whether
+    # CardioVSN learns to weight AQI + SpO2 + resting HR while MentalVSN ignores them.
+    description: "Asthmatic city dweller — severe cardio response to AQI events, mentally resilient with strong support network"
+    seed: 2005
+    aqi_spike_count: 5             # more frequent events
+    aqi_spike_magnitude: 150.0     # severe
+    aqi_spike_width_days: 14
+
+    cardio:
+      base: 0.22
+      drift_per_day: 0.00008
+      event_day: -1                # events driven by AQI spikes
+      event_magnitude: 0.0
+      event_width_days: 14
+      seasonal_amplitude: 0.04     # strong winter cardio effect
+
+    mental:
+      base: 0.13                   # low mental baseline
+      drift_per_day: 0.00002       # barely moves
+      event_day: -1
+      event_magnitude: 0.0
+      event_width_days: 14
+      seasonal_amplitude: 0.015    # minimal mental seasonality
+
+    signals:
+      hrv_rmssd_ms: 54.0
+      resting_hr_bpm: 68.0
+      spo2_pct: 97.4               # slightly compromised at rest
+      sleep_efficiency_pct: 86.0   # good sleep — mentally well
+      rem_min: 98.0
+      deep_min: 80.0
+      steps: 7500.0
+      active_min: 38.0
+      screen_off_min: 85.0         # low screen — mentally healthy
+      aqi_pm25: 35.0               # high baseline urban AQI
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 5.0
+      resting_hr_bpm: 3.0
+      spo2_pct: 0.5                # higher SpO2 noise — respiratory sensitivity
+      sleep_efficiency_pct: 0.04
+      rem_min: 9.0
+      deep_min: 7.0
+      steps: 900.0
+      active_min: 7.0
+      screen_off_min: 14.0
+      aqi_pm25: 8.0                # high AQI noise — variable urban environment
+      ambient_temp_c: 3.0
+
+  # ───────────────────────────────────────────────────────────────────────────
+
+  grief:
+    # [DIVERGENT] Acute mental collapse with delayed, mild cardio coupling.
+    # Archetype: otherwise healthy person experiencing bereavement. Mental risk
+    # spikes immediately and severely. Cardio responds with a 60-day lag and
+    # much smaller magnitude (grief-related neglect of exercise, disrupted eating).
+    # Tests model's ability to detect temporal asymmetry between agents.
+    description: "Bereaved person — acute mental health crisis with delayed mild cardio coupling from self-neglect"
+    seed: 2006
+
+    cardio:
+      base: 0.18
+      drift_per_day: 0.00012       # mild upward — neglecting health
+      event_day: 90                # delayed cardio effect (60d after mental event)
+      event_magnitude: 0.07        # mild — physical neglect, not cardiovascular disease
+      event_width_days: 40
+      seasonal_amplitude: 0.02
+
+    mental:
+      base: 0.20
+      drift_per_day: 0.00005       # slow baseline drift
+      event_day: 30                # acute grief event — bereavement
+      event_magnitude: 0.35        # very large mental spike
+      event_width_days: 60         # wide — prolonged grief
+      seasonal_amplitude: 0.04
+
+    signals:
+      hrv_rmssd_ms: 58.0           # good baseline — was healthy before
+      resting_hr_bpm: 63.0
+      spo2_pct: 98.5
+      sleep_efficiency_pct: 62.0   # severely disrupted — grief insomnia
+      rem_min: 48.0                # very low — grief suppresses REM
+      deep_min: 55.0
+      steps: 5500.0                # moderate — some walks (coping)
+      active_min: 20.0
+      screen_off_min: 320.0        # high — late night phone use, grief rumination
+      aqi_pm25: 15.0
+      ambient_temp_c: 21.0
+
+    noise:
+      hrv_rmssd_ms: 6.0
+      resting_hr_bpm: 3.0
+      spo2_pct: 0.3
+      sleep_efficiency_pct: 0.08   # high noise — erratic grief sleep
+      rem_min: 14.0                # high noise — highly variable
+      deep_min: 9.0
+      steps: 1200.0                # high noise — some days walk a lot, some nothing
+      active_min: 6.0
+      screen_off_min: 55.0
+      aqi_pm25: 3.0
+      ambient_temp_c: 2.0

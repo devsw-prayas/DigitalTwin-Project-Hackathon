@@ -1,0 +1,83 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\app\\component\\navbar.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\component\\navbar.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\app\\types\\react-katex.d.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\types\\react-katex.d.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\app\\math\\algebra.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app\\math\\algebra.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "navbar.tsx",
+              "DocumentMoniker": "C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\app\\component\\navbar.tsx",
+              "RelativeDocumentMoniker": "app\\component\\navbar.tsx",
+              "ToolTip": "C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\app\\component\\navbar.tsx",
+              "RelativeToolTip": "app\\component\\navbar.tsx",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAEkAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-10-12T07:01:36.851Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "react-katex.d.ts",
+              "DocumentMoniker": "C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\app\\types\\react-katex.d.ts",
+              "RelativeDocumentMoniker": "app\\types\\react-katex.d.ts",
+              "ToolTip": "C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\app\\types\\react-katex.d.ts",
+              "RelativeToolTip": "app\\types\\react-katex.d.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-10-12T07:01:17.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "algebra.ts",
+              "DocumentMoniker": "C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\app\\math\\algebra.ts",
+              "RelativeDocumentMoniker": "app\\math\\algebra.ts",
+              "ToolTip": "C:\\StormWeaver\\Development\\Code\\Webstorm\\sw-studios\\app\\math\\algebra.ts",
+              "RelativeToolTip": "app\\math\\algebra.ts",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-10-12T07:00:43.867Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

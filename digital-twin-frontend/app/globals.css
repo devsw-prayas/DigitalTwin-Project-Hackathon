@@ -1,26 +1,413 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    /* Raw font bindings (from next/font variables) */
+    --font-orbitron: var(--font-orbitron);
+    --font-space-grotesk: var(--font-space-grotesk);
+    --font-oxanium: var(--font-oxanium);
+
+    /* Semantic font roles */
+    --font-body: var(--font-space-grotesk);
+    --font-heading: var(--font-orbitron);
+    --font-system: var(--font-oxanium);
+
+    /* Default typography tuning */
+    --leading-body: 1.6;
+    --leading-heading: 1.15;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+@theme {
+    /* Colors */
+    --color-background: #0A0A12;
+    --color-surface: #141422;
+    --color-border: #232339;
+
+    --color-text-primary: #E6F6F5;
+    --color-text-muted: #A3A7C2;
+
+    --color-accent-cyan: #00E5C2;
+    --color-accent-violet: #6C00FF;
+
+    --color-code-bg: #11111A;
+    --color-code-keyword: #00E5C2;
+    --color-code-number: #6C00FF;
+    --color-code-comment: #A3A7C2;
+
+    --color-success: #22C55E;
+    --color-warning: #FACC15;
+    --color-error: #EF4444;
+    --color-info: #06B6D4;
+
+    /* Fonts */
+    --font-body: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --font-math: "STIX Two Math", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Inline math */
+.katex {
+    color: var(--textPrimary);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Block equations */
+.katex-display {
+    @apply my-6 px-4 py-3 rounded-lg;
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    text-align: center;
+}
+
+/* Operators, symbols */
+.katex .mord {
+    color: var(--textPrimary);
+}
+
+.katex .mbin,
+.katex .mrel {
+    color: var(--accent);
+}
+
+/* Numbers and constants */
+.katex .mord.num {
+    color: var(--accent);
+}
+
+/* Functions (sin, cos, log, etc.) */
+.katex .mop {
+    color: var(--accent);
+}
+
+/* ==== NAVBAR — translucent, neumorphic, no dropdowns ==== */
+.navbar {
+    /* positioning + bg handled inline in navbar.tsx */
+}
+
+.navbar-scrolled {
+    /* no longer used */
+}
+
+.navbar-container {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-logo {
+    color: #f0f0f0;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    font-size: 1.5rem;
+    text-shadow:
+            0 1px 1px rgba(255, 255, 255, 0.05),
+            0 -1px 2px rgba(0, 0, 0, 0.7);
+    transition: opacity 0.3s;
+}
+
+.navbar-logo:hover {
+    opacity: 0.85;
+}
+
+.navbar-menu {
+    display: flex;
+    gap: 2.2rem;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+}
+
+.navbar-link {
+    color: #e0e0e0;
+    position: relative;
+    transition: color 0.25s ease, transform 0.2s ease;
+}
+
+.navbar-link:hover {
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+
+/* optional underline glow on hover */
+.navbar-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.25rem;
+    width: 0%;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.25s ease;
+    border-radius: 2px;
+}
+
+.navbar-link:hover::after {
+    width: 100%;
+}
+
+:root {
+    --sidebar-width: 260px;
+    --sidebar-min-width: 0px;
+}
+
+/* === Sidebar Container === */
+.sidebar {
+    position: fixed;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+
+    /* glass look */
+    background: rgba(12, 12, 20, 0.65);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04);
+
+    /* layout */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+    padding: 1.5rem 1rem;
+
+    /* base dimensions (Framer overrides width dynamically) */
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-min-width);
+}
+
+/* === Scrollbar Styling === */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+}
+
+/* === Section + Dropdowns === */
+.sidebar-section {
+    margin-bottom: 1rem;
+}
+
+/* Section title buttons */
+.sidebar-section-title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    color: var(--accent, #00e5c2);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 0.3rem 0;
+    transition: color 0.25s ease;
+}
+.sidebar-section-title:hover {
+    color: var(--color-white, #6c00ff);
+}
+
+/* Dropdown arrows */
+.arrow {
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    opacity: 0.6;
+}
+.arrow.open {
+    transform: rotate(180deg);
+    opacity: 1;
+    color: var(--color-accent-violet, #6c00ff);
+}
+
+/* Dropdown content */
+.sidebar-list {
+    list-style: none;
+    margin: 0.3rem 0 0;
+    padding-left: 0.75rem;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.35s ease;
+}
+.sidebar-list.open {
+    max-height: 400px;
+    opacity: 1;
+}
+
+/* === Sidebar Items === */
+.sidebar-item {
+    display: block;
+    color: #cfcfcf;
+    text-decoration: none;
+    font-size: 0.92rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+}
+.sidebar-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    transform: translateX(2px);
+}
+.sidebar-item.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-weight: 600;
+    border-left: 2px solid var(--color-accent-cyan, #00e5c2);
+}
+
+/* === Sidebar Resizer === */
+.sidebar-resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    cursor: ew-resize;
+    background: transparent;
+    transition: background 0.2s ease;
+}
+.sidebar-resizer:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+#projects-content::-webkit-scrollbar {
+    display: none;
+}
+
+.ribbon-block {
+    width: 260px;
+    height: 140px;
+
+    /* Clean diagonal shape */
+    clip-path: polygon(12% 0%, 100% 0%, 88% 100%, 0% 100%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    transition: transform .25s ease, opacity .25s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+.ribbon-block:hover {
+    transform: scale(1.04);
+    opacity: 0.85;
+}
+
+.ribbon-label {
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: white;
+    opacity: 0.2;
+    letter-spacing: 2px;
+    pointer-events: none;
+}
+
+/* === Sidebar entrance animations === */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* === Sidebar dropdown animation === */
+.sidebar-sections {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, padding 0.25s ease;
+}
+.sidebar-sections.open {
+    max-height: 400px;
+    opacity: 1;
+    padding-top: 3px;
+    padding-bottom: 8px;
+}
+.sidebar-item-link {
+    position: relative;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+.sidebar-item-link .sidebar-item-border {
+    position: absolute;
+    inset: 0;
+    border-radius: 7px;
+    border: 2px solid var(--accent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+.sidebar-item-link:hover .sidebar-item-border {
+    opacity: 1;
+}
+.sidebar-section-link {
+    position: relative;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+.sidebar-section-link .sidebar-item-border {
+    position: absolute;
+    inset: 0;
+    border-radius: 5px;
+    border: 2px solid var(--accent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+.sidebar-section-link:hover .sidebar-item-border {
+    opacity: 1;
+}
+
+/* === Premium Scrollbar === */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+            to bottom,
+            color-mix(in srgb, var(--accent) 60%, transparent),
+            color-mix(in srgb, var(--accent) 30%, transparent)
+    );
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
 }
